@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { MoviesController } from './movies/movies.controller';
-import { MoviesService } from './movies/movies.service';
+import { MoviesModule } from './movies/movies.module';
+import { AppController } from './app.controller';
 
 @Module({
-  imports: [],
-  controllers: [MoviesController],
-  // url을 가져오고 함수를 실행
-  providers: [MoviesService],
+  imports: [MoviesModule],
+  controllers: [AppController], // url을 가져오고 함수를 실행
+  providers: [],
 })
 // 모듈은 @Module 데코레이터로 주석이 달린 클래스
 // 모듈은 Nest가 애플리케이션 구조를 구성하는데 사용되는 메타데이터 제공
