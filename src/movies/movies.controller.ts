@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -6,6 +7,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 @Controller('movies') // entry point -> /movies
@@ -15,25 +17,33 @@ export class MoviesController {
     return '모든 영화를 가져옵니다.';
   }
 
-  @Get('/:id')
+  @Get('search')
+  search(@Query('year') searchingYear: string) {
+    return `${searchingYear}년 이후의 영화를 검색합니다`;
+  }
+
+  @Get(':id')
   getOne(@Param('id') movieId: string) {
     // id를 파라미터로 받아옴
     return `${movieId}번 영화를 가져옵니다.`;
   }
 
   @Post()
-  create() {
-    return '영화를 생성합니다.';
+  create(@Body() movieData) {
+    return movieData;
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   remove(@Param('id') movieId: string) {
     return `${movieId}번 영화를 삭제합니다.`;
   }
 
-  @Patch('/:id')
-  patch(@Param('id') movieId: string) {
-    return `${movieId}번 영화를 수정합니다.`;
+  @Patch(':id')
+  patch(@Param('id') movieId: string, @Body() updateData) {
+    return {
+      updatedMovie: movieId,
+      ...updateData,
+    };
   }
 }
 
